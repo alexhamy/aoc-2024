@@ -1,65 +1,23 @@
+def is_safe(line):
+    n = len(line)
+    increasing = all(1 <= line[i] - line[i - 1] <= 3 for i in range(1, len(line)))
+    decreasing = all(-3 <= line[i] - line[i - 1] <= -1 for i in range(1, len(line)))
+    return increasing or decreasing
+
+def can_be_safe_with_dampener(line):
+    for i in range(len(line)):
+        modified_line = line[:i] + line[i + 1:]  
+        if is_safe(modified_line):  
+            return True
+    return False
+
 output = 0
 
 with open("input.txt", 'r') as file:
     for line in file:
-        line = line.strip()
-        line = line.split(' ')
-        
-        for i in range(len(line)):
-            line[i] = int(line[i])
-        
-        increasing  = True
-            
-        avg_dif = 0
-        
-        for i in range(1, len(line)):
-            dif = line[i] - line[i-1]
-            if dif <= 0:
-                avg_dif += 1
-        
-        if avg_dif > len(line) - 3:
-            increasing = False
-            
-        
-        complete = True
-        
-        dampaner = True
-        
-        i = 1
-        
-        n = len(line)
-        
-        if increasing:
-            while i < n:
-                dif = line[i] - line[i - 1]
-                if dif >= 1 and dif <=3:
-                    i += 1
-                elif dampaner:
-                    line[i] < line[i - 1]
-                    i = 1
-                    n -= 1
-                    dampaner = False
-                else:
-                    complete = False
-                    break
-                
-        else:
-            while i < n:
-                dif = line[i] - line[i - 1]
-                if dif <= -1 and dif >= -3:
-                    i += 1
-                elif dampaner:
-                    line.pop(i)
-                    i = 1
-                    n -= 1
-                    dampaner = False
-                else:
-                    complete = False
-                    break
-        
-        if complete:
+        levels = list(map(int, line.strip().split()))
+
+        if is_safe(levels) or can_be_safe_with_dampener(levels):
             output += 1
-            
-        
-        
+
 print(output)
