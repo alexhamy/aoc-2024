@@ -50,7 +50,6 @@ with open("input.txt", "r") as input:
                 
                 if dir_num in paths[(cur_x, cur_y)]:
                     output[0] += 1
-                    print(1)
                     return
                 
                 paths[(cur_x, cur_y)].add(dir_num)
@@ -64,13 +63,20 @@ with open("input.txt", "r") as input:
             
             search(cur_x + dir_x, cur_y + dir_y, dir_x, dir_y, dir_num, paths)
             
-            
     
     temp = get_dir_char(cur_dir)
     
     cur_dir_x, cur_dir_y = guard_dir[temp]
     
-    search(guard_x, guard_y, cur_dir_x, cur_dir_y, temp, {})
+    paths = {}
+    
+    search(guard_x, guard_y, cur_dir_x, cur_dir_y, temp, paths)
+    
+    for path in paths:
+        for d in paths[path]:
+            new_dir = (d + 1)%4
+            cur_dir_x, cur_dir_y = guard_dir[new_dir]
+            search(path[0], path[1], cur_dir_x, cur_dir_y, new_dir, {})
 
 print(len(positions))
 print(output)
