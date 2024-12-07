@@ -67,7 +67,6 @@ with open("input.txt", "r") as input:
     output = 0
     for i in range(len(wrong)):
         temp = check_order(wrong[i])
-        print(temp)
         output += temp[len(temp)//2]
         
         
