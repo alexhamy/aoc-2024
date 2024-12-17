@@ -33,7 +33,6 @@ with open("input.txt", "r") as input:
     for i in range(max_y):
         for j in range(max_x):
             if graph[i][j] == '0':
-
                 dfs(0, i, j, (i, j))
     
     print(output[0])
